@@ -1,0 +1,34 @@
+【Unrecognized legacy `hibernate.hbm2ddl.auto` value : true】
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.IllegalArgumentException: Unrecognized legacy `hibernate.hbm2ddl.auto` value : true
+Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is java.lang.IllegalArgumentException: Unrecognized legacy `hibernate.hbm2ddl.auto` value : true
+Caused by: java.lang.IllegalArgumentException: Unrecognized legacy `hibernate.hbm2ddl.auto` value : true
+spring.jpa.hibernate.ddl-auto=create-drop 自动建表，存在则删除。
+实际中应该指定为create或者none。
+【JPA使用UUID生成主键】
+	@Id
+	@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "jpa-uuid")
+	private String id;
+【主键自增】
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+【JPA指定实体类对应的表没有主键】
+ 加主键。
+【JPA联合主键】
+	@Entity
+	@Table(name = "user")
+	@IdClass(UserId.class)
+	public class User {
+	    @Id
+	    private Integer id;
+	    @Id
+	    private String username;
+	    @Id
+	    private String password;
+	}
+
+	public class UserId implements Serializable {
+	    private Integer id;
+	    private String username;
+	    private String password;
+	}
